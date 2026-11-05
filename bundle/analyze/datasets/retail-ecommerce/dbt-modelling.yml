@@ -31,7 +31,8 @@ description: |
 
   - Keep **ordered**, **paid**, **dispatched** and **delivered** timestamps, and say which one each
     report books sales on.
-  - Store timestamps in UTC and derive the trading date in the organisation's timezone.
+  - Store timestamps in UTC (GMT+00:00, no daylight saving) and derive the trading date in the
+    organisation's timezone (UK: GMT in winter, BST = GMT+01:00 in summer).
   - Join a `dim_date` with the retail calendar (retail week and period, 4-4-5 or 52/53-week year,
     peak and event flags) so LFL compares equivalent weeks.
 
