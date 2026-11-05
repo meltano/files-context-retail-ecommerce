@@ -1,0 +1,60 @@
+version: datasets/v0.3
+title: "Retail and e-commerce: industry overview"
+questions: What does a retail or e-commerce organisation's data look like, and where does it come from?
+description: |
+  Industry context for this workspace, for the people and AI assistants working in it. It has no
+  query: it is a briefing to read before modelling or analysing this organisation's data.
+
+  ## Segments
+
+  Retail and e-commerce covers organisations that sell goods to consumers or businesses, online, in
+  stores or both. The segments differ in which entities and metrics matter most:
+
+  - **Pure-play e-commerce and direct-to-consumer (DTC) brands:** a web shop and often an app.
+    Sessions, orders, marketing spend, repeat purchase and returns drive the data.
+  - **Store-based and omnichannel retail:** shops plus a web shop, with click-and-collect, ship-from-
+    store and returns in either channel. Store sales, footfall, stock by location and like-for-like
+    growth drive the data.
+  - **Marketplace sellers:** selling through Amazon, eBay, Etsy, Zalando or similar. The marketplace
+    owns the customer and reports orders, fees and payouts in its own format.
+  - **Marketplaces and platforms:** the operator of a multi-seller site. Gross merchandise value
+    (GMV), take rate, sellers and buyers drive the data.
+  - **Grocery and convenience:** high transaction counts, low basket values, fresh stock with waste,
+    loyalty schemes and promotions.
+  - **Subscription commerce:** boxes and replenishment orders on a schedule, with subscriber churn
+    alongside the usual order data.
+  - **B2B and wholesale:** trade accounts, price lists, credit terms, purchase orders and EDI.
+
+  ## Typical source systems
+
+  | System | Examples | What it holds |
+  |---|---|---|
+  | E-commerce platform | Shopify, Adobe Commerce (Magento), BigCommerce, Salesforce Commerce Cloud, WooCommerce | Orders, line items, customers, products, discounts, refunds |
+  | Point of sale (EPOS) | Lightspeed, Square, Shopify POS, Oracle Retail Xstore, Epos Now | Store transactions, tenders, staff, tills |
+  | Marketplaces | Amazon Seller Central, eBay, Etsy | Marketplace orders, fees, settlements, returns |
+  | ERP / merchandising | NetSuite, Microsoft Dynamics 365, SAP, Brightpearl | Products, purchase orders, cost prices, stock, suppliers |
+  | Inventory and fulfilment | Linnworks, a warehouse management system, a 3PL's portal | Stock by location, picks, shipments |
+  | Payments | Stripe, Adyen, PayPal, Klarna, Shopify Payments | Payments, refunds, disputes, fees, payouts |
+  | Marketing and ads | Google Ads, Meta Ads, TikTok Ads, Microsoft Advertising, affiliates | Spend, impressions, clicks, attributed conversions |
+  | Email, SMS and CRM | Klaviyo, Braze, Mailchimp, Salesforce Marketing Cloud | Profiles, consent, campaigns, sends, opens, clicks |
+  | Web analytics | Google Analytics 4, Adobe Analytics, Segment | Sessions, page views, funnels, traffic sources |
+  | Customer service and reviews | Gorgias, Zendesk, Trustpilot, Yotpo | Tickets, contact reasons, ratings |
+  | Returns and delivery | Loop, ReBound, Metapack, ShipStation, carrier APIs | Return requests, labels, tracking events |
+
+  ## What makes the data different
+
+  - **An order is not a sale.** An order is placed, paid, partly fulfilled, partly cancelled and
+    partly returned over several weeks. Revenue depends on which of those dates and states a report
+    uses, so say which one.
+  - **Many channels, one customer.** The same person buys in store, online and on a marketplace, with
+    a different ID in each. Identity resolution is approximate.
+  - **Attribution disagrees.** Each ad platform claims the conversions it influenced, so their totals
+    exceed actual orders. Analytics and order data rarely match exactly either.
+  - **Seasonality and the retail calendar.** Peak (Black Friday to Christmas), sales events and
+    promotions dominate the year, and many retailers report on a 4-4-5 or 52/53-week calendar.
+  - **Stock is a snapshot.** Inventory systems hold the current quantity, so history has to be
+    captured daily to report availability or sell-through over time.
+
+  Related datasets: *data model*, *metrics*, *modelling it in dbt*, *handling the data*.
+
+  #retail-ecommerce #organisation-context

@@ -1,0 +1,42 @@
+version: datasets/v0.3
+title: "Retail and e-commerce: data model"
+questions: What are the core entities of retail and e-commerce data, and at what grain should each be modelled?
+description: |
+  The entities most retail and e-commerce data reduces to, with the grain and key of each. Use it
+  to map raw source tables onto a consistent model. Names are suggestions; keep the organisation's
+  own terms where they already exist.
+
+  | Entity | Grain (one row per…) | Notes |
+  |---|---|---|
+  | `customer` | person or trade account | Several source IDs per person (web account, guest email, loyalty card, marketplace buyer). Keep a mapping table rather than one overwritten ID |
+  | `product` | product (style) | The parent item: brand, category, season, supplier |
+  | `product_variant` (SKU) | sellable SKU | Size and colour of a product, with barcode (GTIN/EAN). Most sales and stock data is at this grain |
+  | `price` | SKU per price list per effective date | Full price, sale price and cost change over time: version them |
+  | `location` | store, warehouse or channel | Type, region, open and close dates, selling space. Online and marketplaces are locations too |
+  | `order` | order | Channel, location, customer, placed timestamp, currency, status, totals for goods, discounts, shipping and tax |
+  | `order_line` | order line | SKU, quantity, unit price, discount allocated to the line, tax. The grain of product sales |
+  | `fulfilment` (shipment) | shipment | Lines and quantities shipped, carrier, tracking, shipped and delivered timestamps. One order can ship in several parts |
+  | `return` / `refund` | returned line | Quantity, reason, condition, refund amount and timestamp. A refund can also be an adjustment with no goods returned |
+  | `store_transaction` | till transaction | EPOS basket with lines and tenders. Sales, returns and voids in one stream |
+  | `inventory_snapshot` | SKU per location per day | On hand, allocated, on order. Captured daily, because sources usually only hold the current figure |
+  | `purchase_order` | PO line | Supplier, SKU, ordered and received quantities, cost, expected and received dates |
+  | `promotion` / `discount` | promotion or code | Type, mechanic, start and end dates. Join to the order lines it applied to |
+  | `marketing_spend` | platform per campaign per day | Spend, impressions, clicks, platform-attributed conversions and revenue |
+  | `session` | web or app session | Source, medium, campaign, device, landing page, whether it converted |
+
+  ## Relationships
+
+  - A **customer** places many **orders**; a guest order may have only an email.
+  - An **order** has many **order lines**, each for one **SKU**, and one or more **fulfilments**.
+  - A **return** refers back to the **order line** it reverses, and may be made in another channel.
+  - A **SKU** belongs to a **product** and has stock in many **locations** each day.
+  - A **purchase order** brings stock of a SKU into a location from a **supplier**.
+  - A **session** may lead to an **order**; marketing spend is joined by date, channel and campaign.
+
+  ## Status and history
+
+  Order and line statuses change (for example `placed` → `paid` → `part_shipped` → `shipped` →
+  `part_returned`). Keep the event timestamps, not only the latest status. Snapshot stock, prices
+  and product attributes such as category and season, which merchandisers reclassify.
+
+  #retail-ecommerce #organisation-context

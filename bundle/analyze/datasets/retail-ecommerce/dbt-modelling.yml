@@ -1,0 +1,67 @@
+version: datasets/v0.3
+title: "Retail and e-commerce: modelling it in dbt"
+questions: How should raw retail and e-commerce data be modelled in dbt so that it reconciles?
+description: |
+  Conventions for building dbt models on raw retail and e-commerce data. They apply on top of the
+  workspace's usual dbt layout: staging, then intermediate, then marts.
+
+  ## Orders, lines and returns
+
+  - **Model sales at order-line grain.** Order headers carry totals; product, category and margin
+    reporting needs lines. Build `fct_order_lines` first and aggregate up to `fct_orders`.
+  - **Allocate order-level amounts to lines.** Order discounts, shipping and gift cards often sit on
+    the header. Allocate them pro rata to line value, and test that the lines sum back to the
+    header.
+  - **Returns are their own fact.** Model `fct_returns` at returned-line grain, linked to the
+    original order line, and dated when the return was processed. Do not overwrite the original sale.
+  - **Separate refunds from returns.** A refund can be goodwill with nothing returned, and a return
+    can be an exchange with no refund.
+  - **Exclude test, cancelled and fraud orders explicitly,** with a documented flag rather than a
+    silent filter.
+
+  ## Money and tax
+
+  - Store amounts as `numeric`, never floating point. Shopify and most platforms give decimal
+    strings; some (Stripe, Adyen) give integers in minor units: convert in staging.
+  - Keep **VAT-inclusive and VAT-exclusive** values separately. UK consumer prices include VAT;
+    finance usually reports net of it.
+  - Keep the currency with every amount and convert multi-currency sales with a dated rate table.
+
+  ## Dates and calendars
+
+  - Keep **ordered**, **paid**, **dispatched** and **delivered** timestamps, and say which one each
+    report books sales on.
+  - Store timestamps in UTC and derive the trading date in the organisation's timezone.
+  - Join a `dim_date` with the retail calendar (retail week and period, 4-4-5 or 52/53-week year,
+    peak and event flags) so LFL compares equivalent weeks.
+
+  ## Products and stock
+
+  - Snapshot product attributes (category, season, price) with **dbt snapshots**: merchandisers
+    reclassify products and reports must use the hierarchy as it was, or as it is, deliberately.
+  - Build `fct_inventory_daily` at SKU-location-day from a daily snapshot. A load that only captures
+    current stock cannot be rebuilt later.
+  - Take cost of goods from the cost price at the time of sale, not today's cost.
+
+  ## Customers and marketing
+
+  - Build a `customer_id` mapping across platforms (email hash, loyalty number, account ID) in an
+    intermediate model, and keep the source IDs beside it.
+  - Do not sum platform-attributed conversions across ad platforms; report them per platform and
+    compare with actual orders.
+
+  ## Incremental loads
+
+  Orders change after they are placed (payment, fulfilment, returns). Load them incrementally on
+  `updated_at`, merge on the order ID, and reprocess a look-back window of at least the returns
+  period.
+
+  ## Tests
+
+  - Line totals sum to order totals, within a penny per order.
+  - Daily net sales agree with the platform's or the payment provider's report.
+  - Returns never exceed the quantity sold on the original line.
+  - `unique` and `not_null` on order, line, SKU and location keys; **accepted values** on channel
+    and status; **freshness** on order sources.
+
+  #retail-ecommerce #organisation-context

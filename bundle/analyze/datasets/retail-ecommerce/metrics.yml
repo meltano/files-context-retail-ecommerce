@@ -1,0 +1,60 @@
+version: datasets/v0.3
+title: "Retail and e-commerce: key metrics"
+questions: Which metrics does a retail or e-commerce organisation run on, and how is each calculated?
+description: |
+  Standard definitions of the metrics retail and e-commerce organisations report. Confirm each one
+  with the finance or trading team before building it: organisations differ on whether sales
+  include tax, shipping and returns, and on which date (order, dispatch or payment) books a sale.
+
+  ## Sales
+
+  | Metric | Definition |
+  |---|---|
+  | Gross sales | Value of goods ordered at the price paid, before returns. State whether it includes VAT, shipping and discounts |
+  | Net sales (net revenue) | Gross sales less discounts, returns and refunds, usually excluding VAT and often excluding shipping |
+  | Gross merchandise value (GMV) | Total value of goods sold through a marketplace or platform, before fees and returns |
+  | Average order value (AOV) | Net (or gross) sales ÷ number of orders. Use the same basis for both |
+  | Units per transaction (UPT) | Units sold ÷ orders or transactions |
+  | Like-for-like (LFL) sales growth | Sales growth for stores (and channels) trading in both periods, excluding openings, closures and major refits. Compare equivalent retail weeks |
+  | Sales per square foot (or metre) | Store net sales ÷ selling space, usually annualised |
+
+  ## Margin
+
+  | Metric | Definition |
+  |---|---|
+  | Gross margin | (Net sales − cost of goods sold) ÷ net sales. Cost at the cost price when sold |
+  | Markdown rate | Value of price reductions from full price ÷ sales at full price |
+  | Full-price sell-through share | Units (or value) sold at full price ÷ all units (or value) sold |
+  | Contribution per order | Net sales − cost of goods − fulfilment, payment and marketing cost per order |
+
+  ## Conversion and marketing
+
+  | Metric | Definition |
+  |---|---|
+  | Conversion rate | Orders ÷ sessions (online), or transactions ÷ footfall (stores) |
+  | Basket abandonment rate | Sessions that added to basket without ordering ÷ sessions that added to basket |
+  | Return on ad spend (ROAS) | Attributed revenue ÷ ad spend, per platform or campaign. Say which attribution model |
+  | Marketing efficiency ratio (MER) | Total revenue ÷ total marketing spend, with no attribution |
+  | Customer acquisition cost (CAC) | Marketing spend ÷ new customers in the period |
+
+  ## Customers
+
+  | Metric | Definition |
+  |---|---|
+  | New vs returning customers | Customers whose first order is in the period vs those who ordered before |
+  | Repeat purchase rate | Customers with two or more orders ÷ all customers, over a stated window |
+  | Purchase frequency | Orders ÷ unique customers in the period |
+  | Customer lifetime value (CLV) | Net sales (or margin) per customer over a stated period, often by acquisition cohort |
+
+  ## Stock and fulfilment
+
+  | Metric | Definition |
+  |---|---|
+  | Sell-through rate | Units sold ÷ units received (or units available at the start plus received) in the period |
+  | Stock cover (weeks of cover) | Units in stock ÷ average weekly units sold |
+  | Availability (in-stock rate) | SKU-location-days in stock ÷ all ranged SKU-location-days |
+  | Stock turn | Cost of goods sold ÷ average stock at cost |
+  | Returns rate | Value (or units) returned ÷ value (or units) sold, matched to the sale period or the return period, stated |
+  | On-time dispatch rate | Orders dispatched by the promised time ÷ orders dispatched |
+
+  #retail-ecommerce #organisation-context
